@@ -1,51 +1,41 @@
-package ba.edu.ibu.library.core.model;
+package ba.edu.ibu.library.rest.dto;
 
+import ba.edu.ibu.library.core.model.User;
 import ba.edu.ibu.library.core.model.enums.UserType;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Document
-public class User {
-  @Id
-  private String id;
+public class UserRequestDTO {
   private UserType userType;
   private String firstName;
   private String lastName;
   private String email;
   private String username;
   private String password;
-  private Date creationDate = new Date();
 
-  public User() {
+  public UserRequestDTO() {
   }
 
-  public User(String id,
-              UserType userType,
-              String firstName,
-              String lastName,
-              String email,
-              String username,
-              String password,
-              Date creationDate
-  ) {
-    this.id = id;
-    this.userType = userType;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.username = username;
-    this.password = password;
-    this.creationDate = creationDate;
+  public UserRequestDTO(User user) {
+    this.userType = user.getUserType();
+    this.firstName = user.getFirstName();
+    this.lastName = user.getLastName();
+    this.email = user.getEmail();
+    this.username = user.getUsername();
+    this.password = user.getPassword();
   }
 
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
+  public User toEntity() {
+    User user = new User();
+    user.setUserType(userType);
+    user.setFirstName(firstName);
+    user.setLastName(lastName);
+    user.setEmail(email);
+    user.setUsername(username);
+    user.setPassword(password);
+    user.setCreationDate(new Date());
+    return user;
   }
 
   public UserType getUserType() {
@@ -94,13 +84,5 @@ public class User {
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  public Date getCreationDate() {
-    return creationDate;
-  }
-
-  public void setCreationDate(Date creationDate) {
-    this.creationDate = creationDate;
   }
 }
